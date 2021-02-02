@@ -9,14 +9,7 @@ const foods = [
     unit: "Dona",
     category: { _id: "5fe5c183db9b000a30e0774a", name: "Ichimlik" },
   },
-  {
-    _id: "5fe5c2bbdb9b000a30e07759",
-    title: "Fanta",
-    price: 10000,
-    amount: 10,
-    unit: "Dona",
-    category: { _id: "5fe5c183db9b000a30e0774a", name: "Ichimlik" },
-  },
+  
   {
     _id: "5fe5c220db9b000a30e0774d",
     title: "Kavob",
@@ -48,6 +41,14 @@ const foods = [
     amount: 22,
     unit: "Dona",
     category: { _id: "5fe5c169db9b000a30e07749", name: "Taom" },
+  },
+  {
+    _id: "5fe5c2bbdb9b000a30e07759",
+    title: "Fanta",
+    price: 10000,
+    amount: 10,
+    unit: "Dona",
+    category: { _id: "5fe5c183db9b000a30e0774a", name: "Ichimlik" },
   },
   {
     _id: "5fe5c366db9b000a30e07775",

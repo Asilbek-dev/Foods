@@ -1,4 +1,4 @@
-// import _ from "lodash";
+import _ from "lodash";
 
 // export const getCategoriesWithNumber = (items = [], categories = [],item) =>{
 //     const listConvertCategories = [...categories];
@@ -11,3 +11,16 @@
 //     }    
 //     return listConvertCategories;
 // };
+
+
+export const getCategoriesWithName = (items = [], categories = [],item) =>{
+    const listNameCategories = [...categories];
+    for(let i = 0; i < categories.length; i++){
+        for(let j = 0; j < items.length; j++){
+            if((_.get(items[j], "category.name")) !== (_.get(categories[i],"name"))){
+                categories.name = "";
+            }
+        }
+    }    
+    return listNameCategories;
+};

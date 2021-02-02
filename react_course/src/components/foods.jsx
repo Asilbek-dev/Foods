@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import {getFoods} from './services/fakeFoods';
-import Like from './like.jsx';
+import {Pagination,Listgroup} from './common';
 import {paginate} from './utils/paginate';
-import Pagination from './paginetion/pogination';
-import Listgroup from './paginetion/list-group.jsx';
 import { getCategories } from './services/fakeCategories';
-import  {getCategoriesWithNumber}  from './utils/list';
+import FoodsTable from './foods-table';
+import _ from 'lodash';
 
 class Foods extends Component {
     state = { 
@@ -13,7 +12,8 @@ class Foods extends Component {
         categories: getCategories(),
         pageSize: 3,
         currentPage: 1,
-        selectCategory: null,
+        selectCategory: [],
+        sortColumn: {path:"title", orderBy: "asc"},
     }
 
     
@@ -35,22 +35,37 @@ class Foods extends Component {
     handleSelectCategory = (selectCategory) =>{
         this.setState({selectCategory: selectCategory, currentPage:1})
     }
+
+    handleSortColumn = (sortColumn) =>{
+        this.setState({sortColumn});
+    }
+    
+
     componentDidMount () {
         const categories = getCategories();
         this.setState({
             categories:[{name:"Barchasi",numbers: "10"}, ...categories]})
     }
+
+    getPadgeData = () => {
+        const {
+            foods,currentPage,pageSize,selectCategory,sortColumn
+        } = this.state;
+        let {length : count} = foods; 
+        const filtered =selectCategory?._id ? foods.filter((food) => food.category._id === selectCategory._id) : foods;
+        
+        const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.orderBy]);
+        const paginated = paginate(sorted,currentPage, pageSize);
+        count = filtered.length;
+        return {count, data: paginated}
+    }
     
     render() { 
-        const {foods,currentPage,pageSize,categories,selectCategory} = this.state;
-        let {length : count} = foods;  
+        const {
+            currentPage,pageSize,categories,selectCategory,sortColumn
+        } = this.state;
         
-        const filtered =selectCategory?._id ? foods.filter((food) => food.category._id === selectCategory._id) : foods;
-        count = filtered.length;       
-
-        // const categoriesWithNumber = [{name:"Barchasi",numbers: count},...getCategoriesWithNumber (foods, categories)];
-        
-        const paginatedItems = paginate(filtered,currentPage, pageSize);
+        const {data, count} = this.getPadgeData();
         return count === 0 ? "Bizda mahsulot yo'q !!!" : (
             <main className="container">
             <div className="row">
@@ -59,33 +74,13 @@ class Foods extends Component {
             </div>
             <div className="col mt-4">
             <h5>Bizda {count} mahsulot bor!</h5>
-            <table className="table table-bordered table-hover">
-                <thead>
-                    <tr className="table-info">
-                        <th>Title</th>
-                        <th>Category</th>
-                        <th>Price</th>
-                        <th>Amount</th>
-                        <th>Unit</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {paginatedItems.map(({_id,title,category:{name}, price,amount,unit,liked}) => (
-                    <tr key={_id}>
-                        <td>{title}</td>
-                        <td>{name}</td>
-                        <td>{price}</td>
-                        <td>{amount}</td>
-                        <td>{unit}</td>
-                        <td>
-                            <Like liked = {liked} onToggleKike = {() => this.handleToggleLike(_id)}/>
-                            <button className="btn-sm btn-danger" onClick={() => this.handleDelete(_id)}>Delete</button>
-                        </td>
-                    </tr>
-                    ))}
-                </tbody>
-            </table>
+            <FoodsTable 
+            items = {data}
+            onToggleLike = {this.handleToggleLike} 
+            onDelete = {this.handleDelete}
+            onSort = {this.handleSortColumn}
+            sortColumn = {sortColumn}
+            />
             <Pagination countItems={count} currentPage={currentPage} pageSize = {pageSize} onPageChange = {this.handlePageChange}/>
                 </div>
             </div>
