@@ -1,3 +1,5 @@
+import "../main.css";
+
 const Pagination = ({countItems,pageSize,currentPage,onPageChange}) => {
     const pages = [];
     const countPage = countItems / pageSize; 

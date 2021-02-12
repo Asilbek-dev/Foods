@@ -8,12 +8,12 @@ const menus = [
 const Navbar = () => {
   return (
     <nav className="navbar navbar-light bg-light px-5 mb-3">
-      <Link  to="/foods" className="navbar-brand">
+      <Link  to="/" className="navbar-brand">
         FOODS
       </Link>
       <ul className="nav">
         {menus.map(({ label, path }) => (
-          <li className="nav-item">
+          <li key={path} className="nav-item">
             <Link to={path} className="nav-link">
               {label}
             </Link>

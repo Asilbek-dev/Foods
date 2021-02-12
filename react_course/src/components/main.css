@@ -3,6 +3,7 @@ body{
     padding:0;
     box-shadow: border-box;
     user-select: none;
+    font-family:Georgia, 'Times New Roman', Times, serif !important;
 }
 
 .table-info{
@@ -20,4 +21,10 @@ body{
 }
 thead > tr > th:not(:last-child){
     cursor: pointer;
+}
+.btn-info{
+    float: right !important;
+}
+.search-btn{
+    -webkit-box-shadow: none !important;
 }

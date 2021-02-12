@@ -32,12 +32,14 @@ const FoodsTable = ({
     },
   ];
   return (
-    <Table
-      columns={columns}
-      sortColumn={sortColumn}
-      onSort={onSort}
-      data={items}
-    />
+    <main>
+      <Table
+        columns={columns}
+        sortColumn={sortColumn}
+        onSort={onSort}
+        data={items}
+      />
+    </main>
   );
 };
 

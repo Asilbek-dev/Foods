@@ -1,60 +1,34 @@
-import React, { Component } from "react";
+import Joi from "joi-browser";
+import Form from "./common/form";
 
-export default class Login extends Component {
+export default class Login extends Form {
   state = {
-    account: {
+    data: {
       username: "",
       password: "",
     },
+    errors: {},
+    title: "Login",
+  };
+  schema = {
+    username: Joi.string().min(3).max(30).required().label("Username"),
+    password: Joi.string().min(4).required().label("Password"),
   };
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(this.state.account);
-  };
-
-  handleChange = (e) => {
-    const { name, value } = e.currentTarget;
-    this.setState({ account: { ...this.state.account, [name]: value } });
-  };
+  doSubmit = () =>{
+    console.log("Success operation...")
+  }
 
   render() {
     return (
       <main className="container">
         <div className="row">
           <div className="col-md-4 offset-4">
-            <h2 ref={this.title}>Login</h2>
-
+            <this.renderTitle/>
             <form>
-              <div className="form-group">
-                <label htmlFor="username">Email address</label>
-                <input
-                  value={this.state.account.username}
-                  autoFocus
-                  ref={this.usernameRef}
-                  id="username"
-                  name="username"
-                  className="form-control"
-                  onChange={this.handleChange}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="password">Password</label>
-                <input
-                  value={this.state.account.password}
-                  id="password"
-                  name="password"
-                  type="password"
-                  className="form-control"
-                  onChange={this.handleChange}
-                />
-              </div>
-              <button
-                onClick={this.handleSubmit}
-                className="btn-sm btn-success float-right"
-              >
-                Sign in
-              </button>
+              <this.renderInput name = "username" label = "Username"/>
+              <this.renderInput name = "password" label = "Password" type="password"/>
+              <this.renderSubmit label = "Send"/>
             </form>
           </div>
         </div>

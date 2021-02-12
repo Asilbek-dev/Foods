@@ -1,19 +1,30 @@
+import AddedInput from "../common/added-input";
+import FoodDetail from "../food-detail";
 import Foods from "../foods";
+import FoodForm from "../forms/food";
 import Login from "../login";
 import NotFound from "../not-found.jsx";
 import Register from "../register";
 
 export const routes = [
   {
-    path: "/foods",
+    path: "/",
     component: Foods,
     exact: true,
+    child: [
+      {
+        path: "/food-detail",
+        component: FoodDetail,
+        exact: true,
+      },
+      
+    ],
   },
-  //   {
-  //     path: "/foods/:foodId",
-  //     component: FoodDetail,
-  //     exact: true,
-  //   },
+  {
+    path: "/foods/:foodId",
+    component: FoodForm,
+    exact: true,
+  },
   {
     path: "/login",
     component: Login,
@@ -22,6 +33,11 @@ export const routes = [
   {
     path: "/register",
     component: Register,
+    exact: false,
+  },
+  {
+    path: "/added-input",
+    component: AddedInput,
     exact: false,
   },
   {

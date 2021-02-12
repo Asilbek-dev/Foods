@@ -1,86 +1,42 @@
-import React, { Component } from "react";
+import Joi from "joi-browser";
+import Form from "./common/form";
 
-export default class Register extends Component {
+export default class Login extends Form {
   state = {
-    register: {
+    data: {
       username: "",
       email: "",
       password: "",
       confirmPassword: "",
     },
+    errors: {},
+    title: "Register",
+  };
+  schema = {
+    username: Joi.string().min(3).max(30).required().label("Username"),
+    email: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }),
+    password: Joi.string().min(4).required().label("Password"),
+    confirmPassword: Joi.string().min(4).required().label("Password"),
   };
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(this.state.register);
-  };
-
-  handleChange = (e) => {
-    const { name, value } = e.currentTarget;
-    this.setState({ register: { ...this.state.register, [name]: value } });
-  };
+  doSubmit = () =>{
+    console.log("Success operation...")
+  }
 
   render() {
     return (
       <main className="container">
         <div className="row">
-            <div className="col-md-4 offset-4">
-                <h2 ref={this.title}>Ro'yhatdan o'tish</h2>
-        
-                <form>
-                <div className="form-group">
-                    <label htmlFor="username">Username</label>
-                    <input
-                      value={this.state.register.username}
-                      autoFocus
-                      ref={this.usernameRef}
-                      id="username"
-                      name="username"
-                      className="form-control"
-                      onChange={this.handleChange}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="email">Email address</label>
-                    <input
-                      value={this.state.register.email}
-                      ref={this.usernameRef}
-                      id="email"
-                      name="email"
-                      className="form-control"
-                      onChange={this.handleChange}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="password">Password</label>
-                    <input
-                      value={this.state.register.password}
-                      id="password"
-                      name="password"
-                      type="password"
-                      className="form-control"
-                      onChange={this.handleChange}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="password">Confirm password</label>
-                    <input
-                      value={this.state.register.confirmPassword}
-                      id="confirmPassword"
-                      name="confirmPassword"
-                      type="password"
-                      className="form-control"
-                      onChange={this.handleChange}
-                    />
-                  </div>
-                  <button
-                    onClick={this.handleSubmit}
-                    className="btn-lg btn-success float-right"
-                  >
-                    Ro'yhatdan o'tish
-                  </button>
-                </form>
-            </div>
+          <div className="col-md-4 offset-4">
+            <this.renderTitle/>
+            <form>
+              <this.renderInput name = "username" label = "Username"/>
+              <this.renderInput name = "email" label = "Email"/>
+              <this.renderInput name = "password" label = "Password" type="password"/>
+              <this.renderInput name = "confirmPassword" label = "ConfirmPassword" type="password"/>
+              <this.renderSubmit label = "Registration"/>
+            </form>
+          </div>
         </div>
       </main>
     );

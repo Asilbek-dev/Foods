@@ -5,7 +5,7 @@ const Routes = ({ routes }) => {
     <Switch>
       {routes.map((route) =>
         route?.redirect ? (
-          <Redirect {...route} to={route.redirect} />
+          <Redirect key={route.redirect} {...route} to={route.redirect} />
         ) : (
           <Route key={route.path} {...route} />
         )
@@ -13,5 +13,4 @@ const Routes = ({ routes }) => {
     </Switch>
   );
 };
-
 export default Routes;
